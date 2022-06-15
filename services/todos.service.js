@@ -2,22 +2,11 @@ import supertest from 'supertest';
 import urls from '../configs/urls';
 
 const Todos = {
-    get: async(token) => {
+    get: async(token, path = '/todos', contentType = 'application/json') => {
         const response = await supertest(urls.challenge)
-        .get(`/todos`)
-        .set('X-CHALLENGER', token);
-        return response;
-    },
-    getTodoById: async(token, id) => {
-        const response = await supertest(urls.challenge)
-        .get(`/todos/${id}`)
-        .set('X-CHALLENGER', token);
-        return response;
-    },
-    getByDoneStatus: async(token, status) => {
-        const response = await supertest(urls.challenge)
-        .get(`/todos?doneStatus=${status}`)
-        .set('X-CHALLENGER', token);
+        .get(path)
+        .set('X-CHALLENGER', token)
+        .set("Accept", contentType);
         return response;
     },
     post: async(token, body) => {

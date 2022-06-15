@@ -25,7 +25,8 @@ describe ('Отправляем сетевые запросы', () => {
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
     it ('Вызвать несуществующий ендпоинт, 404', async () => {
-        const r = await Todo.get(token);
+        let path = '/todo'
+        const r = await Todo.get(token, path);
         assert.strictEqual(r.statusCode, 404, 'statusCode не 404');
     });
     it ('Получить задачу по id, 200', async () => {
@@ -34,13 +35,16 @@ describe ('Отправляем сетевые запросы', () => {
             "doneStatus": true,
             "description": ""
         };
-        let createdTodo = (await Todos.post(token, body)).headers['location'];
-        let id = (createdTodo.split('/'))[1];
-        const r = await Todos.getTodoById(token, id);
+
+        let createdTodo = await Todos.post(token, body);
+        let id = createdTodo._body["id"];
+        let path = `/todos/${id}`
+        const r = await Todos.get(token, path);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
     it ('Попытатьcя получить задачу по несуществующему id, 404', async () => {
-        const r = await Todos.getTodoById(token, 0);
+        let path = `/todos/0`
+        const r = await Todos.get(token, path);
         assert.strictEqual(r.statusCode, 404, 'statusCode не 404');
     });
     it ('Получить заголовки ендпоинта /todos, 200', async () => {
@@ -57,7 +61,8 @@ describe ('Отправляем сетевые запросы', () => {
         assert.strictEqual(r.statusCode, 201, 'statusCode не 201');
     });
     it ('Отфильтровать список задач по статусу, 200', async () => {
-        const r = await Todos.getByDoneStatus(token, true);
+        let path = `/todos?doneStatus=true`
+        const r = await Todos.get(token, path);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
     it ('Попытаться создать задачу с невалидным статусом, 400', async () => {
@@ -80,8 +85,8 @@ describe ('Отправляем сетевые запросы', () => {
             "doneStatus": true,
             "description": "ololo"
         };
-        let createdTodo = (await Todos.post(token, body1)).headers['location'];
-        let id = (createdTodo.split('/'))[1];
+        let createdTodo = await Todos.post(token, body1);
+        let id = createdTodo._body["id"];
         const r = await Todos.update(token, id, body2);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
