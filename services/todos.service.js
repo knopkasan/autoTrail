@@ -16,7 +16,7 @@ const Todos = {
     },
     getByDoneStatus: async(token, status) => {
         const response = await supertest(urls.challenge)
-        .get(`/todos/${id}?doneStatus=${status}`)
+        .get(`/todos?doneStatus=${status}`)
         .set('X-CHALLENGER', token);
         return response;
     },
@@ -30,7 +30,7 @@ const Todos = {
     update: async(token, id, body) => {
         const response = await supertest(urls.challenge)
         .post(`/todos/${id}`)
-        .body(body)
+        .send(body)
         .set('X-CHALLENGER', token);
         return response;
     },
@@ -40,7 +40,7 @@ const Todos = {
         .set('X-CHALLENGER', token);
         return response;
     },
-    head: async() => {
+    head: async(token) => {
         const response = await supertest(urls.challenge)
         .head(`/todos`)
         .set('X-CHALLENGER', token);
