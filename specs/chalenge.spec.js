@@ -24,7 +24,7 @@ describe ('Отправляем сетевые запросы', () => {
         const r = await Todos.get(token);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
-    it ('Вызвать несуществующий ендпоинт, 404', async () => {
+    it ('Вызвать несуществующий эндпоинт, 404', async () => {
         const r = await Todo.get(token);
         assert.strictEqual(r.statusCode, 404, 'statusCode не 404');
     });
