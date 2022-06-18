@@ -2,11 +2,11 @@ import supertest from 'supertest';
 import urls from '../configs/urls';
 
 const Todos = {
-    get: async(token, path = '/todos', contentType = 'application/json') => {
+    get: async(token, path = '', acceptType = 'application/json') => {
         const response = await supertest(urls.challenge)
-        .get(path)
+        .get('/todos' + path)
         .set('X-CHALLENGER', token)
-        .set("Accept", contentType);
+        .set("Accept", acceptType);
         return response;
     },
     post: async(token, body) => {
