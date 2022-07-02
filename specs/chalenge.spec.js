@@ -3,6 +3,7 @@ import Challenger from '../services/challenger.service';
 import Challenges from '../services/challenges.service';
 import Todos from '../services/todos.service';
 import Todo from '../services/todo.service';
+import TodoBuilder from '../fixtures/builder/todo';
 const assert = chai.assert;
 
 describe ('Отправляем сетевые запросы', () => {
@@ -29,14 +30,10 @@ describe ('Отправляем сетевые запросы', () => {
         assert.strictEqual(r.statusCode, 404, 'statusCode не 404');
     });
     it ('Получить задачу по id, 200', async () => {
-        let task = {
-            "title": "test",
-            "doneStatus": true,
-            "description": ""
-        };
-
+        const task = new TodoBuilder().setName().setDescription().setDoneStatus('false').build();
+    
         let createdTodo = await Todos.post(token, task);
-        let id = '/' + createdTodo._body["id"];
+        let id = '/' + createdTodo.body.id;
         const r = await Todos.get(token, id);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
@@ -50,12 +47,9 @@ describe ('Отправляем сетевые запросы', () => {
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
     it ('Создать задачу, 201', async () => {
-        let body = {
-            "title": "test",
-            "doneStatus": true,
-            "description": ""
-        };
-        const r = await Todos.post(token, body);
+        const task = new TodoBuilder().setName().setDescription().setDoneStatus('false').build();
+
+        const r = await Todos.post(token, task);
         assert.strictEqual(r.statusCode, 201, 'statusCode не 201');
     });
     it ('Отфильтровать список задач по статусу, 200', async () => {
@@ -64,27 +58,18 @@ describe ('Отправляем сетевые запросы', () => {
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
     it ('Попытаться создать задачу с невалидным статусом, 400', async () => {
-        let body = {
-            "title": "test",
-            "doneStatus": "cat",
-            "description": ""
-        };
-        const r = await Todos.post(token, body);
+        const task = new TodoBuilder().setName().setDescription().setDoneStatus('cat').build();
+
+        const r = await Todos.post(token, task);
         assert.strictEqual(r.statusCode, 400, 'statusCode не 400');
     });
     it ('Обновить существующую задачу, 200', async () => {
-        let task = {
-            "title": "test",
-            "doneStatus": true,
-            "description": ""
-        };
-        let updatedTask = {
-            "title": "test1",
-            "doneStatus": true,
-            "description": "ololo"
-        };
+        const task = new TodoBuilder().setName().setDescription().setDoneStatus('false').build();
+
+        const updatedTask = new TodoBuilder().setName().setDescription().setDoneStatus('true').build();
+
         let createdTodo = await Todos.post(token, task);
-        let id = createdTodo._body["id"];
+        let id = createdTodo.body.id;
         const r = await Todos.update(token, id, updatedTask);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });

@@ -1,0 +1,9 @@
+{
+    "require": "@babel/register",
+    "spec": "specs/**/*.spec.js",
+    "timeout": "5000",
+    "reporter": "mocha-multi-reporters",
+    "reporterOptions": ["configFile=reporterConfig.json"],
+    "diff": true,
+    "extension": ["js", "cjs", "mjs"]
+}
