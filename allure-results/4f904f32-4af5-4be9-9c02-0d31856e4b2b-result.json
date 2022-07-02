@@ -1,1 +1,0 @@
-{"uuid":"4f904f32-4af5-4be9-9c02-0d31856e4b2b","historyId":"ea23477c6a78d8bf44a51998be42486c","status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"labels":[{"name":"parentSuite","value":"Отправляем сетевые запросы"}],"links":[],"start":1655555118617,"name":"Создать задачу, 201","fullName":"Создать задачу, 201","stop":1655555119320}
