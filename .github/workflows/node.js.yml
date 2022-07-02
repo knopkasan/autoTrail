@@ -28,3 +28,10 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm test
+    - name: Get Allure history
+      uses: actions/checkout@v2
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
