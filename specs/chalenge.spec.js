@@ -33,7 +33,7 @@ describe ('Отправляем сетевые запросы', () => {
         const task = new TodoBuilder().setName().setDescription().setDoneStatus('false').build();
     
         let createdTodo = await Todos.post(token, task);
-        let id = '/' + createdTodo.body.id;
+        let id = '/' + createdTodo.id;
         const r = await Todos.get(token, id);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
@@ -69,7 +69,7 @@ describe ('Отправляем сетевые запросы', () => {
         const updatedTask = new TodoBuilder().setName().setDescription().setDoneStatus('true').build();
 
         let createdTodo = await Todos.post(token, task);
-        let id = createdTodo.body.id;
+        let id = createdTodo.id;
         const r = await Todos.update(token, id, updatedTask);
         assert.strictEqual(r.statusCode, 200, 'statusCode не 200');
     });
