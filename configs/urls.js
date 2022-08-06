@@ -1,5 +1,5 @@
 const urls = {
-    challenge: 'https://apichallenges.herokuapp.com'
+  challenge: 'https://apichallenges.herokuapp.com',
 };
 
 export default urls;
